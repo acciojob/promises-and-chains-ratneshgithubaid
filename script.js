@@ -1,28 +1,25 @@
-//your JS code here. If required.
-document.getElementById("voteForm").addEventListener("submit", function (e) {
-  e.preventDefault(); // Prevent form reload
+document.getElementById("votingForm").addEventListener("submit", function (e) {
+  e.preventDefault(); // Prevent form from refreshing the page
 
   const name = document.getElementById("name").value.trim();
-  const age = parseInt(document.getElementById("age").value);
+  const age = document.getElementById("age").value.trim();
 
-  if (!name || isNaN(age)) {
+  if (name === "" || age === "") {
     alert("Please enter valid details.");
     return;
   }
 
-  new Promise((resolve, reject) => {
+  const checkEligibility = new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (age >= 18) {
-        resolve(name);
+      if (parseInt(age) >= 18) {
+        resolve(`Welcome, ${name}. You can vote.`);
       } else {
-        reject(name);
+        reject(`Oh sorry ${name}. You aren't old enough.`);
       }
     }, 4000);
-  })
-    .then((userName) => {
-      alert(`Welcome, ${userName}. You can vote.`);
-    })
-    .catch((userName) => {
-      alert(`Oh sorry ${userName}. You aren't old enough.`);
-    });
+  });
+
+  checkEligibility
+    .then((message) => alert(message))
+    .catch((error) => alert(error));
 });
